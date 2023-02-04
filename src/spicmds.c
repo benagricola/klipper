@@ -54,7 +54,7 @@ command_spi_set_bus(uint32_t *args)
 {
     struct spidev_s *spi = spidev_oid_lookup(args[0]);
     uint8_t mode = args[2];
-    if (mode > 3 || spi->flags & (SF_SOFTWARE|SF_HARDWARE))
+    if (mode > 4 || spi->flags & (SF_SOFTWARE|SF_HARDWARE))
         shutdown("Invalid spi config");
     spi->spi_config = spi_setup(args[1], mode, args[3]);
     spi->flags |= SF_HARDWARE;
