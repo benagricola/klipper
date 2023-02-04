@@ -52,7 +52,7 @@ class ADXL362:
         self.lock = threading.Lock()
         self.raw_samples = []
         # Setup mcu sensor_adxl362 bulk query code
-        self.spi = bus.MCU_SPI_from_config(config, 3, default_speed=5000000)
+        self.spi = bus.MCU_SPI_from_config(config, 4, default_speed=8000000)
         self.mcu = mcu = self.spi.get_mcu()
         self.oid = oid = mcu.create_oid()
         self.query_adxl362_cmd = self.query_adxl362_end_cmd = None
@@ -87,7 +87,7 @@ class ADXL362:
             "adxl362_status oid=%c clock=%u query_ticks=%u next_sequence=%hu"
             " buffered=%c fifo=%c limit_count=%hu", oid=self.oid, cq=cmdqueue)
     def read_reg(self, reg):
-        params = self.spi.spi_transfer([REG_MOD_READ, reg])
+        params = self.spi.spi_transfer([REG_MOD_READ, reg, 0x00])
         response = bytearray(params['response'])
         return response[1]
     def set_reg(self, reg, val, minclock=0):
